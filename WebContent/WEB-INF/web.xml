@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>wsrp</display-name>
+  <servlet>
+    <display-name>wsrp</display-name>
+    <servlet-name>wsrp</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>wsrp</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>
+  	classpath:properties/model-context.xml
+  	classpath:properties/dao-context.xml
+  	classpath:properties/service-context.xml
+  	</param-value>
+  </context-param>
+  <servlet>
+    <description></description>
+    <display-name>oauth2CallBack</display-name>
+    <servlet-name>oauth2CallBack</servlet-name>
+    <servlet-class>servlets.OAuth2CallBackServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>oauth2CallBack</servlet-name>
+    <url-pattern>/oauth2CallBack/*</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>oauth2</display-name>
+    <servlet-name>oauth2</servlet-name>
+    <servlet-class>servlets.OAuth2Servlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>oauth2</servlet-name>
+    <url-pattern>/oauth2/*</url-pattern>
+  </servlet-mapping>
+</web-app>

@@ -1,0 +1,4 @@
+rootProject.name = 'workflow-web-java-redirectPublisher'
+
+include ":common-api-soap-java-sizmek";
+project(":common-api-soap-java-sizmek").projectDir = file("../api-soap-java-sizmek")

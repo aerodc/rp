@@ -1,0 +1,149 @@
+<wsdl:definitions xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://mau.portal.geodis.com" xmlns:intf="http://mau.portal.geodis.com" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://mau.portal.geodis.com">
+<!--WSDL created by Apache Axis version: 1.2.1Built on Aug 08, 2005 (11:49:10 PDT)-->
+<wsdl:types>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://mau.portal.geodis.com">
+<import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+<complexType name="Identity">
+<sequence>
+<element name="businessUnit" nillable="true" type="soapenc:string"/>
+<element name="email" nillable="true" type="soapenc:string"/>
+<element name="firstName" nillable="true" type="soapenc:string"/>
+<element name="function" nillable="true" type="soapenc:string"/>
+<element name="idPers" nillable="true" type="soapenc:long"/>
+<element name="language" nillable="true" type="soapenc:string"/>
+<element name="lastName" nillable="true" type="soapenc:string"/>
+<element name="login" nillable="true" type="soapenc:string"/>
+<element name="password" nillable="true" type="soapenc:string"/>
+<element name="phone" nillable="true" type="soapenc:string"/>
+</sequence>
+</complexType>
+<complexType name="UserSession">
+<sequence>
+<element name="application" nillable="true" type="soapenc:string"/>
+<element name="currentLanguage" nillable="true" type="soapenc:string"/>
+<element name="identity" nillable="true" type="impl:Identity"/>
+<element name="roles" nillable="true" type="soapenc:string"/>
+<element name="ssoKey" nillable="true" type="soapenc:string"/>
+</sequence>
+</complexType>
+<complexType name="MAUException">
+<sequence>
+<element name="code" type="xsd:int"/>
+</sequence>
+</complexType>
+</schema>
+</wsdl:types>
+<wsdl:message name="continueSessionResponse">
+<wsdl:part name="continueSessionReturn" type="impl:UserSession"/>
+</wsdl:message>
+<wsdl:message name="createSessionRequest1">
+<wsdl:part name="login" type="soapenc:string"/>
+<wsdl:part name="password" type="soapenc:string"/>
+<wsdl:part name="application" type="soapenc:string"/>
+<wsdl:part name="remoteIp" type="soapenc:string"/>
+</wsdl:message>
+<wsdl:message name="createSessionRequest">
+<wsdl:part name="login" type="soapenc:string"/>
+<wsdl:part name="password" type="soapenc:string"/>
+<wsdl:part name="application" type="soapenc:string"/>
+</wsdl:message>
+<wsdl:message name="continueSessionResponse1">
+<wsdl:part name="continueSessionReturn" type="impl:UserSession"/>
+</wsdl:message>
+<wsdl:message name="createSessionResponse1">
+<wsdl:part name="createSessionReturn" type="impl:UserSession"/>
+</wsdl:message>
+<wsdl:message name="createSessionResponse">
+<wsdl:part name="createSessionReturn" type="impl:UserSession"/>
+</wsdl:message>
+<wsdl:message name="continueSessionRequest">
+<wsdl:part name="ssoKey" type="soapenc:string"/>
+<wsdl:part name="application" type="soapenc:string"/>
+</wsdl:message>
+<wsdl:message name="continueSessionRequest1">
+<wsdl:part name="ssoKey" type="soapenc:string"/>
+<wsdl:part name="application" type="soapenc:string"/>
+<wsdl:part name="remoteIp" type="soapenc:string"/>
+</wsdl:message>
+<wsdl:message name="MAUException">
+<wsdl:part name="fault" type="impl:MAUException"/>
+</wsdl:message>
+<wsdl:portType name="UserSessionFactory">
+<wsdl:operation name="createSession" parameterOrder="login password application">
+<wsdl:input message="impl:createSessionRequest" name="createSessionRequest"/>
+<wsdl:output message="impl:createSessionResponse" name="createSessionResponse"/>
+<wsdl:fault message="impl:MAUException" name="MAUException"/>
+</wsdl:operation>
+<wsdl:operation name="createSession" parameterOrder="login password application remoteIp">
+<wsdl:input message="impl:createSessionRequest1" name="createSessionRequest1"/>
+<wsdl:output message="impl:createSessionResponse1" name="createSessionResponse1"/>
+<wsdl:fault message="impl:MAUException" name="MAUException"/>
+</wsdl:operation>
+<wsdl:operation name="continueSession" parameterOrder="ssoKey application">
+<wsdl:input message="impl:continueSessionRequest" name="continueSessionRequest"/>
+<wsdl:output message="impl:continueSessionResponse" name="continueSessionResponse"/>
+<wsdl:fault message="impl:MAUException" name="MAUException"/>
+</wsdl:operation>
+<wsdl:operation name="continueSession" parameterOrder="ssoKey application remoteIp">
+<wsdl:input message="impl:continueSessionRequest1" name="continueSessionRequest1"/>
+<wsdl:output message="impl:continueSessionResponse1" name="continueSessionResponse1"/>
+<wsdl:fault message="impl:MAUException" name="MAUException"/>
+</wsdl:operation>
+</wsdl:portType>
+<wsdl:binding name="UserSessionFactorySoapBinding" type="impl:UserSessionFactory">
+<wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+<wsdl:operation name="createSession">
+<wsdlsoap:operation soapAction=""/>
+<wsdl:input name="createSessionRequest">
+<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://mau.portal.geodis.com" use="encoded"/>
+</wsdl:input>
+<wsdl:output name="createSessionResponse">
+<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://mau.portal.geodis.com" use="encoded"/>
+</wsdl:output>
+<wsdl:fault name="MAUException">
+<wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MAUException" namespace="http://mau.portal.geodis.com" use="encoded"/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="createSession">
+<wsdlsoap:operation soapAction=""/>
+<wsdl:input name="createSessionRequest1">
+<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://mau.portal.geodis.com" use="encoded"/>
+</wsdl:input>
+<wsdl:output name="createSessionResponse1">
+<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://mau.portal.geodis.com" use="encoded"/>
+</wsdl:output>
+<wsdl:fault name="MAUException">
+<wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MAUException" namespace="http://mau.portal.geodis.com" use="encoded"/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="continueSession">
+<wsdlsoap:operation soapAction=""/>
+<wsdl:input name="continueSessionRequest">
+<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://mau.portal.geodis.com" use="encoded"/>
+</wsdl:input>
+<wsdl:output name="continueSessionResponse">
+<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://mau.portal.geodis.com" use="encoded"/>
+</wsdl:output>
+<wsdl:fault name="MAUException">
+<wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MAUException" namespace="http://mau.portal.geodis.com" use="encoded"/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="continueSession">
+<wsdlsoap:operation soapAction=""/>
+<wsdl:input name="continueSessionRequest1">
+<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://mau.portal.geodis.com" use="encoded"/>
+</wsdl:input>
+<wsdl:output name="continueSessionResponse1">
+<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://mau.portal.geodis.com" use="encoded"/>
+</wsdl:output>
+<wsdl:fault name="MAUException">
+<wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="MAUException" namespace="http://mau.portal.geodis.com" use="encoded"/>
+</wsdl:fault>
+</wsdl:operation>
+</wsdl:binding>
+<wsdl:service name="UserSessionFactoryService">
+<wsdl:port binding="impl:UserSessionFactorySoapBinding" name="UserSessionFactory">
+<wsdlsoap:address location="http://192.168.184.10/mausw/services/UserSessionFactory"/>
+</wsdl:port>
+</wsdl:service>
+</wsdl:definitions>

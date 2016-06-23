@@ -1,0 +1,14 @@
+bin
+build
+target
+.settings
+.project
+.classpath
+.idea
+.gradle
+*.iml
+WEB-INF/classes
+*.suo
+*.user
+.DS_Store
+WEB-INF/lib

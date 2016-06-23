@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="wsrp">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="static/assets/img/favicon.png">
+<title>Traffic Manager &mdash; Publisher Redirect</title>
+
+<link href="static/assets/css/bootstrap.css" rel="stylesheet">
+<link href="static/assets/css/bootstrap-theme.css" rel="stylesheet">
+<link href="static/assets/css/animation.css" rel="stylesheet">
+<link href="static/assets/fonts/font-awesome.css" rel="stylesheet">
+ <style type="text/css">
+    body {
+        font-family: 'mercury_regularregular' 'mercury_bold' 'mercury_light' 'mercurymedium';
+    }
+    .hidden {
+        display:none;
+    } 
+   
+    </style>
+</head>
+<body ng-controller="indexController">
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-11315609-4', 'auto', {'allowLinker': true});
+  ga('require', 'linker');
+  ga('linker:autoLink', ['trafficmanager.havasmedia.com'] );
+  ga('send', 'pageview');
+</script>
+
+
+   <!-- ------------------------------------             M E N U         ---------------------------------------- -->
+
+    <div class="navbar-fixed-top" style="z-index:1; background-color:#FFFFFF; text-align:left; padding-left:17px; padding-right:15px; border-style: solid; border-bottom-width:1px; border-bottom-color:#D3D3D3" id="top" role="banner">
+        <div class="row">
+
+            <div class="col-md-12 show-sm" style="padding-top:10px; text-align:left; background-color:#09D084; padding-bottom:0px; width:102%; margin-left:-2px;">   
+                <span style="float:left"><img src="static/assets/img/rpgris.png" style="margin-bottom:0px; padding-top: -10px; padding-right:0px" height="46px" ></span><span style="float:right">
+                	<img src="static/assets/img/dcm.png" style="margin-bottom:5px; padding-bottom: 8px;" height="30px" >
+                	<img src="static/assets/img/havasmedia.png" style="margin-bottom:20px;" height="30px" >   
+                	<a href="" ng-click="clickHelpMe()"><span style="color:#FFFFFF;margin-left:9px;" class="glyphicon glyphicon-question-sign btn-lg" data-toggle="tooltip" title="Help Me!"></span></a>
+                	<a href="#"><span title="Sign out" style="color:white; margin-right: 22px;" class="glyphicon glyphicon-off btn-lg" ng-click="logout()"></span></a>
+            </span>
+        </div>
+
+        <button id="bt1" class="btn btn-block btn-inverse" type="button" style="background:transparent; outline:none" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" ng-click="changeArrow('bt1')">
+            <span class="glyphicon glyphicon-chevron-down">
+            </span>
+        </button>
+
+        <button id="bt2" class="btn btn-block btn-inverse" style="display: none;background:transparent; outline:none" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" ng-click="changeArrow('bt2')">
+        	<span class="glyphicon glyphicon-chevron-up"></span>
+        </button>
+
+            <div class= "collapse" data-parent="#accordion2" id="collapseExample" >
+
+			<div class="row">
+			    <div class="col-md-5">
+                	<div class="col-md-3" style="padding-top:12px">
+                    	<h8><font color="#09D084">ID network</font></h8>
+                	</div>
+                	<div class="col-md-9" style="padding-top:12px">
+                    	<input class="form-control input-sm bg-success" id="disabledInput" type="text" value="{{netWID}}" readonly>
+                	</div>
+                </div>
+                <div class="col-md-7">
+                	<div class="col-md-2" style="padding-top:12px">
+                    	<h8><font color="#09D084">Advertiser</font></h8>
+                	</div>
+                	<div class="col-md-4" style="padding-top:12px">
+                    	<div class="form-group" id="disabledInput">
+                        	<input class="form-control input-sm bg-success" id="disabledInput" type="text" value="{{camSelAdvName}}" readonly>
+                    	</div>
+                	</div>
+
+                	<div class="col-md-2" style="padding-top:12px">
+                    	<h8><font color="#000000">Advertiser TM</font></h8>
+                	</div>
+                	<div class="col-md-4" style="padding-top:12px">
+                    	<div class="form-group" id="disabledInput">
+                        	<input class="form-control input-sm bg-success" id="disabledInput" type="text" value="{{advTMName}}" readonly>
+                    	</div>
+                	</div>
+                </div>
+            </div>
+            
+            <div class="row">
+			    <div class="col-md-5">
+                	<div class="col-md-3" style="padding-top:0px">
+                    	<h8><font color="#09D084">Campaign name</font></h8>
+                	</div>
+                	<div class="col-md-9" style="padding-top:0px">
+              		 	<input class="form-control input-sm bg-success" id="disabledInput" type="text" value="{{camDCMName}}" title="{{camDCMName}}" data-toggle="tooltip" data-placement="top"  tooltip readonly>
+                	</div>
+                	</div>
+                <div class="col-md-7">
+                	<div class="col-md-2" style="padding-top:0px">
+                    	<h8><font color="#09D084">Start date</font></h8>
+                	</div>
+                	<div class="col-md-4" style="padding-top:0px">
+                	<div class="input-group">
+                	<span class="input-group-addon" id="sizing-addon2">  <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                 	<input type="text" class="form-control input-sm " value="{{camBeginDate}}" aria-describedby="sizing-addon2" readonly>
+                	</div>
+                	</div>
+
+                	<div class="col-md-2" style="padding-top:0px">
+                    	<h8><font color="#000000">Campaign name TM</font></h8>
+                	</div>
+                	<div class="col-md-4" style="padding-top:0px">
+                    	<div class="form-group" id="disabledInput">
+							<input class="form-control input-sm bg-success" id="disabledInput" type="text" value="{{camTMName}}" title="{{camTMName}}" data-toggle="tooltip" data-placement="top"  tooltip readonly>
+                    	</div>
+                	</div>
+                </div>
+            </div>
+            
+            <div class="row">
+			    <div class="col-md-5">
+                	<div class="col-md-3" style="padding-top:0px">
+                    	<h8><font color="#09D084">ID campaign</font></h8>
+                	</div>
+                	<div class="col-md-9" style="padding-top:0px">
+                    	<div class="form-group" id="disabledInput">
+							<input class="form-control input-sm bg-success" id="searchById" type="text" value="{{camDCMId}}" readonly>
+                    	</div>
+                	</div>
+                </div>
+                <div class="col-md-7">
+                	<div class="col-md-2" style="padding-top:0px">
+                    	<h8><font color="#09D084">End date</font></h8>
+
+                	</div>
+                	<div class="col-md-4" style="padding-top:0px">
+                   	<div class="input-group">
+                 	<span class="input-group-addon" id="sizing-addon2">  <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                	<input type="text" class="form-control input-sm " value="{{camEndDate}}" aria-describedby="sizing-addon2" readonly>
+                	</div>
+                	</div>
+
+                	<div class="col-md-2" style="padding-top:0px">
+                    	<h8><font color="#000000">ID TM</font></h8>
+                  
+                	</div>
+                	<div class="col-md-4" style="padding-top:0px">
+                    	<div class="form-group" id="disabledInput">
+							<input class="form-control input-sm bg-success" id="disabledInput" type="text" value="{{camTMId}}" readonly>
+                    	</div>
+                	</div>
+                </div>
+            </div>
+            
+            <div class="row">
+			    <div class="col-md-5">
+                	<div class="col-md-3">
+                    	<p>Retrieve date <button type="button" style="padding:1px 5px; font-size:10px; line-height:1.5; border-radius:3px;" class="btn btn-default btn-sm"  ng-click="synRetriveDate()"><span class="glyphicon glyphicon-refresh"></span></button> <span ng-show="hasModifToRetrive" id="retriveDate" data-toggle="tooltip" data-placement="top" title="There is new modification for this campaign" style="color:#ea4b55;position:relative;top:2px;left:3px;" class="glyphicon glyphicon-exclamation-sign"></span></p>
+                	</div>
+                	<div class="col-md-9" style="padding-top:0px">
+                    	<div class="form-group">
+                        	<input class="form-control input-sm bg-success" type="text" value={{lastRetriveDate}} readonly></input>
+                    	</div>
+                	</div>
+                </div>
+                <div class="col-md-7">
+                	<div class="col-md-2">
+                    	<p>Description</p>
+                	</div>
+                	<div class="col-md-7">
+                    	<textarea style="width:100%; height:34px; border-radius:3px; border-color: #D3D3D3" id="descId">{{camDesc}}</textarea>
+                	</div>
+                	<div class="col-md-3" style="">
+                    	<buttons type="specialbutton" class="btn btn-success btn-block" style="margin-bottom:10px" ng-click="saveCamDesc()">
+                        	Save change
+                    	</button>
+                	</div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+<br><br>
+
+<div id="loading" ng-hide="loader" style="position: fixed; vertical-align: middle; z-index: 100; width: 100%; height: 100%; background: no-repeat center center;" us-spinner="{radius:30, width:8, length: 16}">
+
+<div class="progress" ng-show="!loader&&showPlNb" style="position: relative; top: 65%; margin-left: 10px;width: 600px;margin-left: auto;margin-right: auto;" >
+  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0"
+  aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+    <span class="sr-only">0% Complete</span>
+  </div>
+</div>
+
+
+<p ng-show="!loader&&showPlNb" style="position: relative; text-align: center; top: 55%; margin-left: 10px; color: green">
+	
+	{{placementNB}}{{indicationText}}
+
+</p>
+
+</div>
+	
+<div class="containergateway" id="divSites">
+
+<div class="panel-group" id="accordion" style="margin-top: 95px">
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+	  <h88>
+		<div class="row">
+			<div class="col-md-2">
+				Filter By Placement Status : 
+			</div>
+			<div class="col-md-2">
+				<button type="button" ng-class="{'btn btn-info btn-block btn-sm':!nwPlButton,'btn btn-default btn-block btn-sm':nwPlButton}"  ng-click="filterPlacemetsByStatus('NEW')">
+                         <font color="black">New</font>
+                </button>
+			</div>
+			<div class="col-md-2">
+                 <button type="button" ng-class="{'btn btn-warning btn-block btn-sm':!oosPlButton,'btn btn-default btn-block btn-sm':oosPlButton}" ng-click="filterPlacemetsByStatus('OOS')">
+                         <font color="black">Out of Scope</font>
+                </button>
+			</div>
+			<div class="col-md-2">
+				<button type="button" ng-class="{'btn btn-danger btn-block btn-sm':!archPlButton,'btn btn-default btn-block btn-sm':archPlButton}" ng-click="filterPlacemetsByStatus('ARCHIVED')">
+                         <font color="black">Archived</font>
+                </button>
+			</div>
+			<div class="col-md-2">
+               <button type="button" ng-class="{'btn btn-success btn-block btn-sm':!valPlButton,'btn btn-default btn-block btn-sm':valPlButton}" ng-click="filterPlacemetsByStatus('VALID')">
+                         <font color="black">Validated</font>                       
+               </button>
+			</div>
+			<div class="col-md-2">
+				<button type="button" ng-class="{'btn btn-primary btn-block btn-sm':!allPlButton,'btn btn-default btn-block btn-sm':allPlButton}" ng-click="filterPlacemetsByStatus('ALL')">
+                         <font color="black">All</font>
+                </button>
+			</div>
+			
+		</div>
+	</h88>
+	</div>
+</div>
+
+<div class="panel panel-default" ng-repeat="site in siteList" >
+    <div class="panel-heading" id="site_{{site.siteId}}">
+        <h88>
+            <div class="row">
+                <div id="plus_{{site.siteId}}" class="col-md-3" data-toggle="collapse" data-parent="#accordion" href="#site{{site.siteId}}" ng-click="changePlus('SITE',site.siteId,'')"><span
+                     class="glyphicon glyphicon-plus btn-xs" style="margin-right:11px"></span>
+                    <font></a>Site:&nbsp;{{site.siteName}}</font> &nbsp; &nbsp;
+                    <h777>ID: {{site.siteId}}&nbsp; &nbsp;&nbsp;&nbsp;</h777>
+                </div>
+                <form ng-submit="filterPla(site.siteId,filterPlacement)">
+                  <div class="col-md-9 text-right">
+                	   <h777>
+						<div class="row">
+                          <input id="placementFilter" class="col-md-4 form-control-log input-sm bg-success" ng-model="filterPlacement" placeholder="Filter placement" ng-keyup="filterPla(site.siteId,filterPlacement)"
+                          style="padding-bottom:10px; text-align:center; height: 31px; margin-bottom: 5px;" type="text">
+                          
+                          <button style="margin-left:10px;" type="button" class="col-md-1 btn btn-default btn-sm" ng-click="filterPla(site.siteId,filterPlacement)"><b>Filter</b></button>
+
+						  <div class="col-md-1"></div>
+
+							<div class="col-md-7" style="float:right;">
+						   <div class="col-md-4">
+						   <button type="button" class="col-md-12 btn btn-warning btn-sm" ng-click="validSite(site,'OOS')">
+                         		<font color="black" >Out of Scope</font>
+                    		</button> 
+                    		</div>
+                    	  <div class="col-md-4">
+                    	  <button type="button" class="col-md-12 btn btn-success btn-sm" ng-click="validSite(site,'VALID')">
+                         	<font color="black">Validate</font>
+                    	  </button>
+                    	  </div>
+                    	  <div class="col-md-4">
+                    	   <button type="button" class="col-md-12 btn btn-primary btn-sm" ng-click="resetSite(site)" >
+                        		<font color="black">Recharge</font>
+                    		</button>
+    					  </div>
+    					  </div>
+						</div>
+                    	</h777>                
+                	</div>
+               </form>
+               
+                <br>
+                
+                <div class="row" style="width:100%; margin: 20px 0px 0px 0px;">
+                   <h777>
+                    	<div class="col-md-7">
+                    	<div class="col-xs-2">Tag Type:</div>
+                    	<div class="col-xs-10">
+                    	<input type="checkbox" checked="checked" id="{{site.siteId}}_cbST" ng-model="cbST" ng-click="checkClick('ST',cbST,site.siteId)"> Standard
+                    	&nbsp; &nbsp; 
+                    	<input type="checkbox" checked="checked" id="{{site.siteId}}_cbIR" ng-model="cbIR" ng-click="checkClick('IR',cbIR,site.siteId)"> Internal redirect
+                        &nbsp; &nbsp; 
+                    	<input type="checkbox" checked="checked" id="{{site.siteId}}_cbJS" ng-model="cbJS" ng-click="checkClick('JS',cbJS,site.siteId)"> JavaScript
+                        &nbsp; &nbsp;
+                        <input type="checkbox" checked="checked" id="{{site.siteId}}_cbJSLG" ng-model="cbJSLG" ng-click="checkClick('JSLG',cbJSLG,site.siteId)"> JavaScript Legacy
+                        &nbsp; &nbsp; 
+                        <input type="checkbox" checked="checked" id="{{site.siteId}}_cbIJ" ng-model="cbIJ" ng-click="checkClick('IJ',cbIJ,site.siteId)"> iFrame / JavaScript
+                        &nbsp; &nbsp;
+                        <input type="checkbox" checked="checked" id="{{site.siteId}}_cbIJLG" ng-model="cbIJLG" ng-click="checkClick('IJLG',cbIJLG,site.siteId)"> iFrame / JavaScript Legacy
+                        </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                        <input type="checkbox" checked="checked" id="{{site.siteId}}_cbII" ng-model="cbII" ng-click="checkClick('II',cbII,site.siteId)"> Impression Image
+                        &nbsp; &nbsp;
+                        <input type="checkbox" checked="checked" id="{{site.siteId}}_cbIIF" ng-model="cbIIF" ng-click="checkClick('IIF',cbIIF,site.siteId)"> Impression Iframe
+                        &nbsp; &nbsp; 
+                        <input type="checkbox" checked="checked" id="{{site.siteId}}_cbCL" ng-model="cbCL" ng-click="checkClick('CL',cbCL,site.siteId)"> Clicks
+                        &nbsp; &nbsp; 
+                        <input type="checkbox" checked="checked" id="{{site.siteId}}_cbCT" ng-model="cbCT" ng-click="checkClick('CT',cbCT,site.siteId)"> Click tracker
+                        </div>
+                        
+                        <div class="col-md-1">
+                        <input type="checkbox" checked="checked" id="{{site.siteId}}_cbPF" ng-model="cbPF" ng-click="checkClick('PF',cbPF,site.siteId)"> Pre-fetch
+                        </div>
+                    </h777>
+                </div>
+                </div>
+        </h88>
+    </div>
+    
+    
+    <div id="site{{site.siteId}}" class="panel-collapse collapse">
+    <div class="panel-body">
+    <div  class="panel-group" id="accordion12">
+    	<div ng-repeat="placement in site.redirectList" ng-show="placement.show2">
+        <div class="panel panel-body-pad panel-default" style="background-color:#F1F1F1">
+        <div class="panel-heading1" >         
+        <h88>
+	   <div class="row" style="padding-bottom:15px; padding-top:15px;border-bottom: 1px solid #ccc" id="pl_{{placement.placementId}}" ng-style="{'background-color':placement.bgcolor}">
+            
+                <div id="plus_{{placement.placementId}}" class="col-md-4" data-toggle="collapse" data-parent="#accordion12" href="#tag{{placement.placementId}}" ng-click="changePlus('PLAC',placement.placementId,placement)">
+                <span class="glyphicon glyphicon-plus btn-xs" style="margin-right:11px"></span>
+                   {{placement.status}} Placement {{placement.placementId}} :{{placement.placementName}}
+                </div>
+             
+             <div class="col-md-2"> </div>
+                <div class="col-md-2 text-right">
+               
+                    <button ng-disabled="{{placement.status == 'ARCHIVED'}}" type="button" class="btn btn-warning btn-block btn-sm" ng-click="validPlacement(placement,'{{site.siteName}}','OOS')">
+                         <font color="black">Out of Scope</font>
+                    </button>                  
+                </div>
+             
+              <div class="col-md-2 text-right">
+               
+                    <button ng-disabled="{{placement.status == 'ARCHIVED'}}" type="button" class="btn btn-success btn-block btn-sm" id="btVP" ng-click="validPlacement(placement,'{{site.siteName}}','VALID')">
+                         <font color="black">Validate</font>
+                    </button>                  
+                </div>
+                <div class="col-md-2">
+                    <button ng-disabled="{{placement.status == 'ARCHIVED'}}" type="button" class="btn btn-primary btn-block btn-sm" id="btRP" ng-click="resetPlacement(placement,false)">
+                        <font color="black">Recharge</font>
+                    </button>
+                </div>
+            </div>
+            </h88>
+           </div>
+           
+    
+			<div class="panel-collapse collapse" id="tag{{placement.placementId}}">
+			
+		    <div ng-repeat=" redtag in placement.redTagList" ng-show="redtag.show">
+		    <div class="col-md-6">
+                <p><span ng-style="{'background-color':redtag.bgcolor}">{{redtag.tagType | tagFilter}} </span><br />
+                    <h777><i messagefadeout2>{{redtag.message}}</i></h777>
+                </p>
+                <textarea spellcheck="false" style="width:100%; height:200px" name="{{placement.placementId}}{{redtag.tagType}}" id="{{placement.placementId}}{{redtag.tagType}}" ng-model="redtag.tagValue">{{redtag.tagValue}}</textarea>
+            </div>
+            <!-- Description -->
+            <div class="col-md-6">
+                <p><br /> Description <br /></p>
+                <textarea style="width:100%; height:200px" name="desc_{{placement.placementId}}{{redtag.tagType}}" id ="desc_{{placement.placementId}}{{redtag.tagType}}" ng-model="redtag.tagDescription">{{redtag.tagDescription}}</textarea>
+            </div>
+            <br>
+            <div class="input-group-btn" style="padding-top:10px; padding-bottom:15px;border-bottom: 1px solid #ccc">
+                <div class="col-md-1 col-md-offset-9 col-lg-1 col-xs-12">
+                    <button ng-disabled="{{placement.status == 'ARCHIVED'}}" type="button" class="btn btn-default btn-block btn-sm" id="btVT" ng-click="validTag(placement,redtag.tagType,site.siteName)"><b>Validate</b></button>
+                </div>
+                <div class="col-md-1 col-lg-1 col-xs-12">
+                    <button ng-disabled="{{placement.status == 'ARCHIVED'}}" type="button" class="btn btn-default btn-block btn-sm" id="btRT" ng-click="resetTag(placement.placementId,redtag.tagType,true)"><b>Recharge</b></button>
+                </div>
+                <div class="col-md-1 col-lg-1 col-xs-12">
+                    <button ng-disabled="{{placement.status == 'ARCHIVED'}}" type="button" class="btn btn-default btn-block btn-sm" id="btDT" ng-click="deleteTag(placement,redtag.tagType)"><b>Delete</b></button>
+                </div>
+             </div> 
+               <div class="input-group" style="padding-bottom:0px;border-bottom: 0px solid #ccc">
+            	</div>
+            <br>
+			</div>
+			
+				
+			</div>
+			
+         
+        </div>
+          <br>
+		</div>
+    	</div>
+	</div>
+	</div>
+</div>
+
+
+
+
+
+
+</div>
+
+    
+    
+<div class="panel-group" id="accordion3" style="margin-top: 10px">
+    <div class="panel panel-default">
+        <div class="panel-heading ">
+            <h88>
+                <div class="row">
+                    <div id="plus_clickLog" class="col-md-4" data-toggle="collapse" data-parent="#accordion" href="#collapseLog" ng-click="changePlus('log','clickLog','')"><span
+                          class="glyphicon glyphicon-plus btn-xs" style="margin-right:11px"></span>
+                        </a>Changelog</font> &nbsp; &nbsp;
+
+                    </div>
+                    <form ng-submit="searchLog(searchPlacement)">
+                    <div class="col-md-8 text-right">   
+                    <h777>    
+                          <input class="form-control-log input-sm bg-success" ng-model="searchPlacement" placeholder="Enter placement Id or Name" style="padding-bottom:10px; text-align:center; height: 31px;" type="text">
+                          &nbsp;&nbsp;
+                          <button type="button" class="btn btn-default btn-sm" ng-click="searchLog(searchPlacement)"><b>Search</b></button>
+                    </h777>
+                </div>
+                </form>
+
+            </h88>
+        </div>
+    </div>
+
+<!-- -----------------------------------------   C H A N G E L O G    ---------------------------------------- -->
+
+    <div id="collapseLog" class="panel-collapse collapse" id="accordion3">
+        <div class="panel-body">
+            <table class="table table-bordered table-hover text-center sortable" style="margin-bottom:0px">
+            <tr>
+                <th class="tg-031e text-center">Site</th>
+                <th class="tg-031e text-center">PlacementId</th>
+                <th class="tg-031e text-center">PlacementName</th>
+                <th class="tg-031e text-center">tagType</th>
+                <th class="tg-031e text-center">tagValue</th>
+                <th class="tg-031e text-center">Status</th>
+                <th class="tg-031e text-center">Modified On</th>
+                <th class="tg-031e text-center">Modified By</th>
+            </tr>
+            <tr ng-repeat="log in logList">
+                     <td class="tg-031e text-center">
+                         <h7><a>{{log.site}}</a></h7>
+                     </td>
+                     <td class="tg-031e text-center">
+                         <h7>{{log.placementId}}</h7>
+                     </td>
+                     <td class="tg-031e text-center">
+                         <h7>{{log.placementName}}</h7>
+                     </td>
+                     <td class="tg-031e text-center">
+                         <h7>{{log.tagType}}</h7>
+                     </td>
+                     <td class="tg-031e text-center">
+                         <textarea readonly style="width:100%; height:80px">{{log.tagValue}}</textarea>
+                     </td>
+                     <td class="tg-031e text-center">
+                         <h7>{{log.status}}</h7>
+                     </td>
+                     <td class="tg-031e text-center">
+                         <h7>{{log.lastModifyDate}}</h7>
+                     </td>
+                     <td class="tg-031e text-center">
+                         <a><i>{{log.modifyByName}}</i></a>
+                     </td>
+                 </tr>
+            
+            </table>
+            </div>
+            </div>
+            <!-- /.col-lg-6 -->
+
+</div>    
+    
+
+</div>
+
+
+
+	<div id="timeoutModal" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-sm">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Time Out</h4>
+				</div>
+				<div class="modal-body">
+					<p>Data load time out:(</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
+	<script src="static/js/angular/angular.min.js"></script>
+	<script src="static/js/angular/angular-cookies.min.js"></script>
+	<script src="static/js/angular/angular-resource.min.js"></script>
+	<script src="static/js/angular/angular-animate.js"></script>
+	
+	<script src="static/js/sorttable.js"></script>
+	<script src="static/app.js?v=1"></script>
+	<script type="text/javascript" src="static/filters/customFilter.js"></script>
+	<script src="static/controllers/IndexController.js?v=1"></script>
+	<script type="text/javascript" src="static/directive/AnimatDirective.js"></script>
+	<script type="text/javascript" src="static/directive/TooltipDirective.js"></script>
+	<script src="static/services/GetRedirectService.js?v=1"></script>	
+
+	<script src="static/assets/js/autosize.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="static/assets/js/bootstrap.min.js"></script>
+	<script src="static/js/lodash.min.js"></script>
+	<script src="static/js/spin.min.js"></script>
+	<script src="static/js/angular-spinner.min.js"></script>
+	<script src="static/assets/js/smart-table.min.js"></script>
+	<script>
+$("button").click(function() {
+    $("button").toggle();
+});
+</script>
+</body>
+</html>
